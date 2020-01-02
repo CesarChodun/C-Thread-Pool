@@ -23,7 +23,7 @@ typedef struct thread_pool {
     int should_close;
     runnable_t *order;
 
-    int num_threads;
+    size_t num_threads;
 
 } thread_pool_t;
 

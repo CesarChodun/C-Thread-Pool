@@ -14,7 +14,7 @@ void worker(thread_pool_t *pool) {
         if (pool->should_close == true)
             break;
 
-        //TODO: save the 'runnable' function
+        runnable_t run = *pool->runnable;
 
         pool->order = NULL;
         pthread_cond_signal(&pool->manager);
@@ -22,7 +22,7 @@ void worker(thread_pool_t *pool) {
         if ((err = pthread_mutex_unlock(&pool->lock) != 0))
             syserr(err, "mutex_unlock");
 
-        //TODO: run the 'runnable' function
+        run.function(run->arg, run->argsz);
 
         if ((err = pthread_mutex_lock(&pool->lock) != 0))
             syserr(err, "mutex_lock");
@@ -72,7 +72,7 @@ void thread_pool_destroy(struct thread_pool *pool) {
 
     pool->should_close = true;
 
-    for (int i = 0; i < pool->num_threads; i++)
+    for (size_t i = 0; i < pool->num_threads; i++)
         pthread_cond_signal(&pool->workers);
 
     if ((err = pthread_mutex_unlock(&pool->lock) != 0))
