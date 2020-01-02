@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/cesar/Documents/Studia/PW/zal2/future.c
+future.h
+/home/cesar/Documents/Studia/PW/zal2/future.h
+
+/home/cesar/Documents/Studia/PW/zal2/future.h
+threadpool.h
+/home/cesar/Documents/Studia/PW/zal2/threadpool.h
+
+/home/cesar/Documents/Studia/PW/zal2/threadpool.c
+threadpool.h
+/home/cesar/Documents/Studia/PW/zal2/threadpool.h
+
+/home/cesar/Documents/Studia/PW/zal2/threadpool.h
+stddef.h
+-
+pthread.h
+-
+semaphore.h
+-
+stdint.h
+-
+stdio.h
+-
+stdlib.h
+-
+
