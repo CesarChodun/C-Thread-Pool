@@ -17,12 +17,13 @@ typedef struct runnable {
 typedef struct thread_pool {
 
     pthread_mutex_t lock;
-    pthread_cond_t manager;
     pthread_cond_t workers;
 
-    int should_close;
-    runnable_t *order;
+    size_t orders_count;
+    size_t first, orders_size;
+    runnable_t *orders;
 
+    int should_close;
     size_t num_threads;
 
 } thread_pool_t;
