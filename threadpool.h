@@ -25,6 +25,7 @@ typedef struct thread_pool {
 
     int should_close;
     size_t num_threads;
+    pthread_t *threads;
 
 } thread_pool_t;
 

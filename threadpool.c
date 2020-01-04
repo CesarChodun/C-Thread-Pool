@@ -66,9 +66,8 @@ int thread_pool_init(thread_pool_t *pool, size_t num_threads) {
     pool->first = 0;
     pool->orders_size = 4;
     pool->orders = (runnable_t *) malloc(4 * sizeof(runnable_t));
+    pool->threads = (pthread_t *) malloc(num_threads * sizeof(pthread_t));
 
-
-    pthread_t th[num_threads];
     pthread_attr_t attr;
 
     if ((err = pthread_attr_init(&attr)) != 0)
@@ -78,7 +77,7 @@ int thread_pool_init(thread_pool_t *pool, size_t num_threads) {
       return err;
 
     for (int i = 0; i < num_threads; i++) {
-        if ((err = pthread_create(&th[i], &attr, worker, pool) != 0))
+        if ((err = pthread_create(&pool->threads[i], &attr, worker, pool) != 0))
             return err;
     }
 
@@ -94,6 +93,8 @@ void thread_pool_destroy(struct thread_pool *pool) {
 
     for (size_t i = 0; i < pool->num_threads; i++)
         pthread_cond_signal(&pool->workers);
+
+    free(pool->threads);
 
     pthread_mutex_unlock(&pool->lock);
 }
