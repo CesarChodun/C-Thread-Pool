@@ -42,8 +42,8 @@ int main() {
         return err;
     pthread_mutex_lock(&lock);
 
-    thread_pool_t pool;
-    thread_pool_init(&pool, POOL_SIZE);
+    thread_pool_t *pool = (thread_pool *) malloc(sizeof(thread_pool_t));
+    thread_pool_init(pool, POOL_SIZE);
 
     int n, m;
     scanf("%d\n%d", &n, &m);
@@ -62,7 +62,7 @@ int main() {
         ((int*)runs[i].arg)[2] = t;
         runs[i].argsz = sizeof(int) * 3;
 
-        defer(&pool, runs[i]);
+        defer(pool, runs[i]);
     }
 
     while (done != d)
@@ -74,18 +74,20 @@ int main() {
     long long out = 0;
     for (int i = 0; i < d; i++) {
         out += mat[i];
-        
+
         if ((i + 1) % m == 0) {
             printf("%lld \n", out);
             out = 0;
         }
     }
 
-    thread_pool_destroy(&pool);
+    thread_pool_destroy(pool);
 
     for (int i = 0; i < d; i++)
         free(runs[i].arg);
     free((void*) runs);
+
+    free(pool);
 
     return 0;
 }

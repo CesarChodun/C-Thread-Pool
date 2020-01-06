@@ -11,6 +11,7 @@ typedef struct callable {
 
 typedef struct future {
     sem_t work_done;
+    size_t ret_size;
     void *ret;
 } future_t;
 
