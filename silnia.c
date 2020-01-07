@@ -5,6 +5,11 @@
 #define POOL_SIZE 3
 
 void *fun(void* v, size_t argsz, size_t *ret_size) {
+    if (argsz < sizeof(int *)) {
+        ret_size[0] = 0;
+        return NULL;
+    }
+
     int* ret = (int *) v;
 
     ret_size[0] = sizeof(int) * 2;
@@ -21,7 +26,7 @@ int main() {
     scanf("%d", &n);
 
     if (n == 0 || n == 1){
-        printf("%d", 1);
+        printf("%d\n", 1);
         return 0;
     }
 

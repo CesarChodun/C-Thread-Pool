@@ -14,6 +14,9 @@ typedef struct mapped_data {
 } mapped_data_t;
 
 void calculate(void *v, size_t argsz) {
+    if (argsz < sizeof(data_t *))
+        return;
+
     data_t info = ((data_t *)v)[0];
 
     info.future->ret = info.callable.function(
@@ -24,6 +27,9 @@ void calculate(void *v, size_t argsz) {
 }
 
 void calculateMapped(void *v, size_t argsz) {
+    if (argsz < sizeof(mapped_data_t *))
+        return;
+
     mapped_data_t info = ((mapped_data_t *)v)[0];
 
     sem_wait(&info.from->work_done);

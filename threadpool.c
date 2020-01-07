@@ -48,6 +48,8 @@ void *worker(void *args) {
     }
 
     pthread_mutex_unlock(&pool->lock);
+
+    return 0;
 }
 
 int thread_pool_init(thread_pool_t *pool, size_t num_threads) {
@@ -76,8 +78,8 @@ int thread_pool_init(thread_pool_t *pool, size_t num_threads) {
     if ((err = pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED)) != 0)
       return err;
 
-    for (int i = 0; i < num_threads; i++) {
-        if ((err = pthread_create(&pool->threads[i], &attr, worker, pool) != 0))
+    for (size_t i = 0; i < num_threads; i++) {
+        if ((err = pthread_create(&pool->threads[i], &attr, &worker, pool) != 0))
             return err;
     }
 
@@ -103,6 +105,9 @@ int defer(struct thread_pool *pool, runnable_t runnable) {
     int err;
     if ((err = pthread_mutex_lock(&pool->lock) != 0))
         return err;
+
+    if (pool->should_close == true)
+        return 1;
 
     addRunnable(pool, runnable);
     pthread_cond_signal(&pool->workers);

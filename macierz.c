@@ -80,7 +80,7 @@ int main() {
         out += mat[i];
 
         if ((i + 1) % m == 0) {
-            printf("%lld \n", out);
+            printf("%lld\n", out);
             out = 0;
         }
     }
