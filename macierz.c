@@ -11,12 +11,16 @@ int *mat;
 int d;
 
 void fun(void* v, size_t argsz) {
+    if (argsz < sizeof(int) * 2)
+        return;
+
     int *data = (int*)v;
     int i = data[0];
     int val = data[1];
     int t = data[2];
 
-    sleep(t);
+    // Sleep for t miliseconds
+    usleep(t);
 
     pthread_mutex_lock(&lock);
     //Get mutex
@@ -42,7 +46,7 @@ int main() {
         return err;
     pthread_mutex_lock(&lock);
 
-    thread_pool_t *pool = (thread_pool *) malloc(sizeof(thread_pool_t));
+    thread_pool_t *pool = (thread_pool_t *) malloc(sizeof(thread_pool_t));
     thread_pool_init(pool, POOL_SIZE);
 
     int n, m;

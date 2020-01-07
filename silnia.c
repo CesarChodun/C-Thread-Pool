@@ -25,7 +25,7 @@ int main() {
         return 0;
     }
 
-    thread_pool_t *pool = (thread_pool *) malloc(sizeof(thread_pool_t));
+    thread_pool_t *pool = (thread_pool_t *) malloc(sizeof(thread_pool_t));
     thread_pool_init(pool, POOL_SIZE);
 
     callable_t cal;
